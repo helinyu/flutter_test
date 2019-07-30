@@ -4,7 +4,43 @@ import 'package:flutter/material.dart';
 // void main() => runApp(FadeTest()); // 渐变动画
 // void main() => runApp(DemoApp());
 // void main() => runApp(MaterialApp(home: DemoApp()));
-void main() => runApp(Painter());
+// void main() => runApp(Painter());
+void main() => runApp(CustomBtnWidget());
+
+
+class CustomBtnWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: '自定义wedgit',
+      theme: ThemeData.fallback(),
+      home: _CustomBtnWidget(),
+    );
+  }
+}
+
+class _CustomBtnWidget extends StatelessWidget {
+  //使用自定义组件
+  @override
+  Widget build(BuildContext context) {
+    return new Center(
+      child: new CustomButton("Hello"),
+    );
+  }
+}
+
+//  自定义widget
+// 在 Flutter 中，推荐组合多个小的 Widgets 来构建一个自定义的 Widget（而不是扩展它）。
+// 举个例子，如果你要构建一个 CustomButton ，并在构造器中传入它的 label？那就组合 RaisedButton 和 label，而不是扩展 RaisedButton。
+class CustomButton extends StatelessWidget {
+  final String label;
+  CustomButton(this.label);
+
+  @override
+  Widget build(BuildContext context) {
+    return new RaisedButton(onPressed: () {}, child: new Text(label));
+  }
+}
 
 //  绘制原型和正方形
 // Flutter
