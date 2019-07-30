@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 // void main() => runApp(DemoApp());
 // void main() => runApp(MaterialApp(home: DemoApp()));
 // void main() => runApp(Painter());
-void main() => runApp(CustomBtnWidget());
+
+void main() => runApp(CustomBtnWidget());// 自定义界面
 
 
 class CustomBtnWidget extends StatelessWidget {
