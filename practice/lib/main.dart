@@ -1,12 +1,48 @@
 import 'package:flutter/material.dart';
 
+
+
+// 导航与路由
+void main() {
+  runApp(MaterialApp(
+    home: MyHomePage(),
+    routes: <String, WidgetBuilder> {
+      '/a': (BuildContext context) => MyPage(title: 'page A'),
+      '/b': (BuildContext context) => MyPage(title: 'page B'),
+      '/c': (BuildContext context) => MyPage(title: 'page C'),
+      '/d': (BuildContext context) => MyPage(),
+    },
+  ));
+}
+//  参数是怎么传的？
+
+class MyPage extends StatelessWidget {
+  String title;
+  //  这个是一个明明参数 ，要用大括号括起来；
+  MyPage({String title: '/d'}) {
+    this.title = title;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Center(
+      child: new CustomButton(this.title),
+    );
+  }
+}
+
+
+
+
+// pragma mark -- 下面是widget的练习
+
 // void main() => runApp(MyApp()); // 基本的首页（常规）
 // void main() => runApp(FadeTest()); // 渐变动画
 // void main() => runApp(DemoApp());
 // void main() => runApp(MaterialApp(home: DemoApp()));
 // void main() => runApp(Painter());
 
-void main() => runApp(CustomBtnWidget());// 自定义界面
+// void main() => runApp(CustomBtnWidget());// 自定义界面
 
 
 class CustomBtnWidget extends StatelessWidget {
@@ -217,7 +253,7 @@ class MyApp extends StatelessWidget {
 }
 
 
-//  基本上阿敏的首页
+//  基本上的首页
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
@@ -231,6 +267,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _toggle() {
     setState(() {
       toggle = !toggle;
+      // Navigator.of(context).pushNamed('/d');  // 主要用于上面的跳转
+      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> UsualNavscreen()));
     });
   }
 
