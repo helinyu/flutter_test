@@ -1,2 +1,4 @@
 # flutter_test
-mainly for test flutter project for my own
+
+1、 mainly some demo for flutter practice
+
