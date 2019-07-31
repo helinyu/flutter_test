@@ -15,8 +15,14 @@ class AssetsJsonData extends StatelessWidget {
   AssetsJsonData({String title: '/d'}) {
     // var a = loadAsset();
     // print('json data : ${a}');
-    Future<Person> person = decodePerson();
-    print('person : ${person}');
+    // Future<Person> personFuture = decodePerson();
+    // personFuture.then((person){
+    //   print('person : ${person}');
+    // });
+    decodePerson().then((person){
+      print('person :${person} ${person.firstName} + ${person.lastName} + ${person.email}');
+    });
+    // print('person : ${person}');
     this.title = title;
   }
 
@@ -73,7 +79,6 @@ class MyPage extends StatelessWidget {
 // void main() => runApp(DemoApp());
 // void main() => runApp(MaterialApp(home: DemoApp()));
 // void main() => runApp(Painter());
-
 void main() => runApp(CustomBtnWidget());// 自定义界面
 
 
@@ -108,7 +113,11 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<Person> person = decodePerson();
-    print('person : ${person}');
+    // Person p = person.generator();
+    // print('person : ${person}');
+    decodePerson().then((person){
+      print('person :${person} ${person.firstName} + ${person.lastName} + ${person.email}');
+    });
     return new RaisedButton(onPressed: () {}, child: new Text(label));
   }
 }
