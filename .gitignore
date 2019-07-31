@@ -13,7 +13,7 @@ pubspec.lock
 doc/api/
 
 # custom ignore file
-flutter-go/*
+#flutter-go/*
 flutter-go
 
 
