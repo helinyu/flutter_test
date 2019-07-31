@@ -1,19 +1,51 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'dart:async' show Future;
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:practice/src/person.dart';
+import 'src/person_service.dart';
+
+
+// void main() => runApp(AssetsJsonData(title: "haha"));
+
+class AssetsJsonData extends StatelessWidget {
+  String title;
+  //  这个是一个明明参数 ，要用大括号括起来；
+  AssetsJsonData({String title: '/d'}) {
+    // var a = loadAsset();
+    // print('json data : ${a}');
+    Future<Person> person = decodePerson();
+    print('person : ${person}');
+    this.title = title;
+  }
+
+  Future<String> loadAsset() async {
+  return await rootBundle.loadString('my-assets/data.json');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Center(
+      child: new CustomButton(this.title),
+    );
+  }
+}
 
 
 
 // 导航与路由
-void main() {
-  runApp(MaterialApp(
-    home: MyHomePage(),
-    routes: <String, WidgetBuilder> {
-      '/a': (BuildContext context) => MyPage(title: 'page A'),
-      '/b': (BuildContext context) => MyPage(title: 'page B'),
-      '/c': (BuildContext context) => MyPage(title: 'page C'),
-      '/d': (BuildContext context) => MyPage(),
-    },
-  ));
-}
+// void main() {
+//   runApp(MaterialApp(
+//     home: MyHomePage(),
+//     routes: <String, WidgetBuilder> {
+//       '/a': (BuildContext context) => MyPage(title: 'page A'),
+//       '/b': (BuildContext context) => MyPage(title: 'page B'),
+//       '/c': (BuildContext context) => MyPage(title: 'page C'),
+//       '/d': (BuildContext context) => MyPage(),
+//     },
+//   ));
+// }
 //  参数是怎么传的？
 
 class MyPage extends StatelessWidget {
@@ -42,7 +74,7 @@ class MyPage extends StatelessWidget {
 // void main() => runApp(MaterialApp(home: DemoApp()));
 // void main() => runApp(Painter());
 
-// void main() => runApp(CustomBtnWidget());// 自定义界面
+void main() => runApp(CustomBtnWidget());// 自定义界面
 
 
 class CustomBtnWidget extends StatelessWidget {
@@ -75,6 +107,8 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<Person> person = decodePerson();
+    print('person : ${person}');
     return new RaisedButton(onPressed: () {}, child: new Text(label));
   }
 }
@@ -267,8 +301,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _toggle() {
     setState(() {
       toggle = !toggle;
-      // Navigator.of(context).pushNamed('/d');  // 主要用于上面的跳转
-      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> UsualNavscreen()));
+      Navigator.of(context).pushNamed('/d');  // 主要用于上面的跳转
+      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> UsualNavscreen()));
     });
   }
 
