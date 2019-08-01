@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '知乎日报',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red
       ),
-      home: MyHomePage(title: '知乎日报'),
+      home: MyHomePage(title: '知乎日报'), // 在原理的widget上构建home 的widget 
     );
   }
 }
@@ -28,71 +28,83 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  StoryListViewModel storyListViewModel = StoryListViewModel();
+  StoryListViewModel storyListViewModel = StoryListViewModel(); // 创建一个vm对象
 
+//  实话的默认方法
   @override
   void initState() {
     super.initState();
   }
 
+//  析构方法
   @override
   void dispose() {
     super.dispose();
     storyListViewModel.dispose();
   }
 
+//  构建widget
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
+    return Scaffold( // 脚手架，注意我们一般都是使用这个来实现就行了
+        appBar: AppBar( // 导航狼
           title: Text(widget.title),
+          leading: new Icon(Icons.arrow_back_ios),
+          automaticallyImplyLeading: true,
+          elevation: 10.0,
+          centerTitle: true,
+          backgroundColor: Colors.red,
         ),
-        body: StreamBuilder<List<StoryModel>>(
-            stream: storyListViewModel.outStoryList,
+        body: StreamBuilder<List<StoryModel>>( // 主题部分， 这里面半丁了stream 
+            stream: storyListViewModel.outStoryList, // model 数据
             builder: (context, snapshot) {
               List stories = snapshot.data;
-              return RefreshIndicator(
+              return RefreshIndicator( // 刷新控件， 这个需要例子去实现一下
                 onRefresh: () {
-                  return storyListViewModel.refreshStoryList();
+                  return storyListViewModel.refreshStoryList(); //刷新里面的方法 这个是刷新列表
                 },
-                child: ListView.builder(
+                child: ListView.builder( // 列表
                     itemCount: (stories?.length ?? 0) + 1,
                     itemBuilder: (context, index) {
                       if (index >= (stories?.length ?? 0)) {
-                        storyListViewModel.loadNextPage();
-                        return _buildLoadMoreView();
+                        storyListViewModel.loadNextPage(); // 设置文案，记载下一个页面
+                        return _buildLoadMoreView();// 设置底部的文案
                       }
-                      return _buildRow(stories[index]);
+                      return _buildRow(stories[index]); // 返回的列表
                     }),
               );
             }));
   }
 
+
+//  创建row的内容
+//  这个就是一行一行的组件， 有点类似于我们的ios的cell， 每一行的内容
   Widget _buildRow(StoryModel story) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => StoryContentPage(storyId: story.id)));
+                builder: (context) => StoryContentPage(storyId: story.id))); // 通过meterial里面的路由进行跳转
       },
-      child: Card(
-        child: Container(
-          height: 90,
+      child: Card( // 卡片
+        child: Container(// 容器
+          height: 70,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                width: 10,
+            children: <Widget>[// 一个数组， 从左边往右边
+              Container( // 有点类似div
+                width: 50,
               ),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center, // 垂直方向，其实就是纵向对齐
+                  crossAxisAlignment: CrossAxisAlignment.start, // 水平方向对齐
                   children: <Widget>[
-                    Container(
-                      height: 10,
-                    ),
+                    // Container(
+                    //   height: 20.0,
+                    // ),
                     Text(
                       story.title,
                       softWrap: true,
@@ -108,12 +120,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Center(
                 child: Image(
                   image: NetworkImageWithRetry(story.images[0]),
-                  height: 70,
-                  width: 70,
+                  height: 55,
+                  width: 55,
                 ),
               ),
               Container(
-                width: 10,
+                width: 30.0,
               ),
             ],
           ),
@@ -127,6 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+//  详情的storypage的详情页面 ， 详情里面的内容， 这个内容传入Id 然后
 class StoryContentPage extends StatefulWidget {
   final int storyId;
 
@@ -172,7 +185,7 @@ class _StoryContentPageState extends State<StoryContentPage> {
           builder: (context, snapshot) {
             var html = snapshot.data;
             if (html != null) {
-              return _buildStoryContent(context, html);
+              return _buildStoryContent(context, html); // 加载html内容
             } else {
               return Center(
                 child: CircularProgressIndicator(),
